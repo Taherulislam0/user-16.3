@@ -41,8 +41,8 @@ jobs:
       # 6️⃣ Replace Package Name
       - name: Replace Package Name
         run: |
-          find android/ -type f -exec sed -i 's/com.sixamtech.sixvalley/com.joypara.user/g' {} +
-          find ios/ -type f -exec sed -i 's/com.sixamtech.sixvalley/com.joypara.user/g' {} +
+          find android/ -type f -exec sed -i 's/com.sixamtech.sixvalley/com.joypara.shop/g' {} +
+          find ios/ -type f -exec sed -i 's/com.sixamtech.sixvalley/com.joypara.shop/g' {} +
 
       # 7️⃣ Replace Base URL
       - name: Replace Base URL
