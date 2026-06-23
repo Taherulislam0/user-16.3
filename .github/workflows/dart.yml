@@ -1,0 +1,76 @@
+name: Build JoyPara App
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    name: Build and Release APK/AAB/Source
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1️⃣ Checkout code
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # 2️⃣ Setup Java 17
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      # 3️⃣ Setup Flutter
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+
+      # 4️⃣ Fetch dependencies
+      - name: Flutter pub get
+        run: flutter pub get
+
+      # 5️⃣ Replace App Name
+      - name: Replace App Name
+        run: |
+          find lib/ -type f -name "*.dart" -exec sed -i 's/6Valley/JoyPara/g' {} +
+          sed -i 's/android:label="6Valley"/android:label="JoyPara"/g' android/app/src/main/AndroidManifest.xml
+
+      # 6️⃣ Replace Package Name
+      - name: Replace Package Name
+        run: |
+          find android/ -type f -exec sed -i 's/com.sixamtech.sixvalley/com.joypara.user/g' {} +
+          find ios/ -type f -exec sed -i 's/com.sixamtech.sixvalley/com.joypara.user/g' {} +
+
+      # 7️⃣ Replace Base URL
+      - name: Replace Base URL
+        run: |
+          find lib/ -type f -name "*.dart" -exec sed -i 's|https://your_domain.com|https://6valley.joyparabd.com|g' {} +
+
+      # 8️⃣ Build APK
+      - name: Build APK
+        run: flutter build apk --release --split-per-abi
+
+      # 9️⃣ Build AAB
+      - name: Build AAB
+        run: flutter build appbundle --release
+
+      # 🔟 Create Source Code ZIP
+      - name: Create Source Code Zip
+        run: |
+          zip -r source-code.zip . -x "*.git*" -x "build/*"
+
+      # 1️⃣1️⃣ Push to GitHub Release (FIXED TAG 🚀)
+      - name: Push to Releases
+        uses: ncipollo/release-action@v1
+        with:
+          tag: release-${{ github.run_number }}
+          name: JoyPara Release ${{ github.run_number }}
+          artifacts: |
+            build/app/outputs/flutter-apk/*.apk
+            build/app/outputs/bundle/release/*.aab
+            source-code.zip
+          allowUpdates: true
+          token: ${{ secrets.TOKEN }}
