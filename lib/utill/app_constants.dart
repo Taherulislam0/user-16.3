@@ -26,12 +26,12 @@ import 'package:flutter_sixvalley_ecommerce/common/enums/local_caches_type_enum.
   static const String loginUri = '/api/v1/auth/login';
 
   static const String logOut = '/api/v1/auth/logout';
-  static const String latestProductUri = '/api/v1/products/latest?guest_id=1&limit=10&&offset=';
-  static const String newArrivalProductUri = '/api/v1/products/new-arrival?guest_id=1&limit=10&&offset=';
+  static const String latestProductUri = '/api/v1/products/latest?guest_id=1&limit=50&&offset=';
+  static const String newArrivalProductUri = '/api/v1/products/new-arrival?guest_id=1&limit=9999&&offset=';
   static const String topProductUri = '/api/v1/products/top-rated?guest_id=1&limit=10&&offset=';
   static const String bestSellingProductUri = '/api/v1/products/best-sellings?guest_id=1&limit=10&offset=';
   static const String discountedProductUri = '/api/v1/products/discounted-product?guest_id=1&limit=10&&offset=';
-  static const String featuredProductUri = '/api/v1/products/featured?guest_id=1&limit=10&&offset=';
+  static const String featuredProductUri = '/api/v1/products/featured?guest_id=1&limit=20&&offset=';
   static const String homeCategoryProductUri = '/api/v1/products/home-categories?guest_id=1';
   static const String productDetailsUri = '/api/v1/products/details/';
   static const String productReviewUri = '/api/v1/products/reviews/';
